@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý đơn hàng</title>
+    <link rel="stylesheet" href="../assets/css/style_combined.css">
+</head>
+<body>
+    <div class="order-management">
+        <!-- Phần chính: Bảng danh sách đơn hàng -->
+        <div class="main-content">
+            <h2>Quản lý đơn hàng</h2>
+            <div class="search-bar">
+                <input type="text" placeholder="Tìm theo mã đơn, khách hàng...">
+                <select>
+                    <option>Tất cả trạng thái</option>
+                    <option>Hoạt động</option>
+                    <option>Đang giao</option>
+                    <option>Hủy đơn</option>
+                </select>
+            </div>
+            <div class="table">
+                <div class="table-header">
+                    <div class="table-column">Mã đơn</div>
+                    <div class="table-column">Khách hàng</div>
+                    <div class="table-column">Ngày đặt</div>
+                    <div class="table-column">Tổng tiền</div>
+                    <div class="table-column">Trạng thái</div>
+                    <div class="table-column">Thao tác</div>
+                </div>
+                <div class="table-row" id="order-1">
+                    <div class="table-column">#12345</div>
+                    <div class="table-column">Nguyễn Văn A<br><small>nguyenvana@example.com<br>0901234567</small></div>
+                    <div class="table-column">12/07/2023</div>
+                    <div class="table-column">850.000đ</div>
+                    <div class="table-column"><span class="status active" id="status-1">Đã giao</span></div>
+                    <div class="table-column action-buttons">
+                        <span class="action-link view-btn" data-order='{"id":1,"orderId":"12345","customerName":"Nguyễn Văn A","email":"nguyenvana@example.com","phone":"0901234567","address":"123 Nguyễn Văn Linh, Quận 7, TP.HCM","date":"12/07/2023","total":"850.000đ","status":"Đã giao","items":[{"title":"Dust","quantity":1,"price":"385.000đ"},{"title":"Cloud Atlas: 20TH ANNIVERSARY EDITION","quantity":1,"price":"69.000đ"}]}'>Xem</span>
+                    </div>
+                </div>
+                <div class="table-row" id="order-2">
+                    <div class="table-column">#12346</div>
+                    <div class="table-column">Trần Thị B<br><small>tranb@example.com<br>0907654321</small></div>
+                    <div class="table-column">10/06/2023</div>
+                    <div class="table-column">900.000đ</div>
+                    <div class="table-column"><span class="status active" id="status-2">Đã giao</span></div>
+                    <div class="table-column action-buttons">
+                        <span class="action-link view-btn" data-order='{"id":2,"orderId":"12346","customerName":"Trần Thị B","email":"tranb@example.com","phone":"0907654321","address":"456 Trần Phú, Quận 5, TP.HCM","date":"10/06/2023","total":"900.000đ","status":"Đã giao","items":[{"title":"Book A","quantity":2,"price":"450.000đ"}]}'>Xem</span>
+                    </div>
+                </div>
+                <div class="table-row" id="order-3">
+                    <div class="table-column">#12347</div>
+                    <div class="table-column">Lê Văn C<br><small>levanc@example.com<br>0989765432</small></div>
+                    <div class="table-column">01/05/2023</div>
+                    <div class="table-column">720.000đ</div>
+                    <div class="table-column"><span class="status active" id="status-3">Đã giao</span></div>
+                    <div class="table-column action-buttons">
+                        <span class="action-link view-btn" data-order='{"id":3,"orderId":"12347","customerName":"Lê Văn C","email":"levanc@example.com","phone":"0989765432","address":"789 Lê Lợi, Quận 1, TP.HCM","date":"01/05/2023","total":"720.000đ","status":"Đã giao","items":[{"title":"Book B","quantity":1,"price":"720.000đ"}]}'>Xem</span>
+                    </div>
+                </div>
+                <div class="table-row" id="order-4">
+                    <div class="table-column">#12348</div>
+                    <div class="table-column">Phạm Thị D<br><small>phamthid@example.com<br>0908765432</small></div>
+                    <div class="table-column">15/04/2023</div>
+                    <div class="table-column">450.000đ</div>
+                    <div class="table-column"><span class="status active" id="status-4">Đã giao</span></div>
+                    <div class="table-column action-buttons">
+                        <span class="action-link view-btn" data-order='{"id":4,"orderId":"12348","customerName":"Phạm Thị D","email":"phamthid@example.com","phone":"0908765432","address":"101 Hà Nội, Quận 3, TP.HCM","date":"15/04/2023","total":"450.000đ","status":"Đã giao","items":[{"title":"Book C","quantity":1,"price":"450.000đ"}]}'>Xem</span>
+                    </div>
+                </div>
+                <div class="table-row" id="order-5">
+                    <div class="table-column">#12349</div>
+                    <div class="table-column">Hoàng Văn E<br><small>hoangvane@example.com<br>0910123456</small></div>
+                    <div class="table-column">20/03/2023</div>
+                    <div class="table-column">1.200.000đ</div>
+                    <div class="table-column"><span class="status active" id="status-5">Đã giao</span></div>
+                    <div class="table-column action-buttons">
+                        <span class="action-link view-btn" data-order='{"id":5,"orderId":"12349","customerName":"Hoàng Văn E","email":"hoangvane@example.com","phone":"0910123456","address":"202 Sài Gòn, Quận 10, TP.HCM","date":"20/03/2023","total":"1.200.000đ","status":"Đã giao","items":[{"title":"Book D","quantity":1,"price":"1.200.000đ"}]}'>Xem</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar: Menu điều hướng -->
+        <div class="sidebar">
+            <h3>Menu điều hướng</h3>
+            <ul>
+                <li><a href="#">Tổng quan</a></li>
+                <li><a href="#">Quản lý sản phẩm</a></li>
+                <li class="active"><a href="#">Quản lý đơn hàng</a></li>
+                <li><a href="#">Quản lý khách hàng</a></li>
+                <li><a href="#">Thống kê</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Modal chính -->
+    <div class="modal-overlay" id="modalOverlay"></div>
+    <div class="modal" id="orderModal">
+        <div class="modal-header">
+            <h2>Chi tiết đơn hàng</h2>
+            <span class="modal-close" id="modalClose">×</span>
+        </div>
+        <div class="modal-content">
+            <div><span class="label">Mã đơn:</span><span id="modalOrderId"></span></div>
+            <div><span class="label">Tên khách hàng:</span><span id="modalCustomerName"></span></div>
+            <div><span class="label">Email:</span><span id="modalEmail"></span></div>
+            <div><span class="label">Số điện thoại:</span><span id="modalPhone"></span></div>
+            <div><span class="label">Địa chỉ:</span><span id="modalAddress"></span></div>
+            <div><span class="label">Ngày đặt:</span><span id="modalDate"></span></div>
+            <div><span class="label">Tổng tiền:</span><span id="modalTotal"></span></div>
+            <div><span class="label">Trạng thái:</span><span id="modalStatusText"></span></div>
+            <div><span class="label">Cập nhật trạng thái:</span>
+                <select id="modalStatus">
+                    <option value="Đã giao">Đã giao</option>
+                    <option value="Đang giao">Đang giao</option>
+                    <option value="Hủy đơn">Hủy đơn</option>
+                </select>
+            </div>
+            <div><span class="label">Danh sách sản phẩm:</span></div>
+            <div class="order-items" id="modalOrderItems"></div>
+        </div>
+        <div class="modal-actions">
+            <button class="lock-btn" onclick="updateOrderStatus()">Cập nhật trạng thái</button>
+            <button class="close-btn">Đóng</button>
+        </div>
+    </div>
+
+    <!-- Popup xác nhận cập nhật trạng thái -->
+    <div class="confirm-modal" id="confirmModal">
+        <h3>Xác nhận cập nhật trạng thái</h3>
+        <p>Bạn có chắc chắn muốn cập nhật trạng thái đơn hàng này không?</p>
+        <div class="confirm-actions">
+            <button class="confirm-cancel" onclick="closeConfirmModal()">Hủy</button>
+            <button class="confirm-lock" onclick="confirmUpdateStatus()">Xác nhận</button>
+        </div>
+    </div>
+
+    <!-- Popup thông báo cập nhật trạng thái thành công -->
+    <div class="success-modal" id="successModal">
+        <div class="success-icon">✔</div>
+        <h3>Cập nhật thành công</h3>
+        <p>Trạng thái đơn hàng đã được cập nhật thành công.</p>
+        <div class="success-actions">
+            <button class="success-cancel" onclick="closeSuccessModal()">Hủy</button>
+            <button class="success-ok" onclick="closeSuccessModal()">OK</button>
+        </div>
+    </div>
+
+    <script>
+        // Lấy tất cả các nút "Xem"
+        const viewButtons = document.querySelectorAll('.view-btn');
+        const modal = document.getElementById('orderModal');
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalClose = document.getElementById('modalClose');
+        const closeBtn = document.querySelector('.close-btn');
+        let currentOrderData = null;
+        const confirmModal = document.getElementById('confirmModal');
+        const successModal = document.getElementById('successModal');
+
+        // Hiển thị modal với dữ liệu đơn hàng
+        viewButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                currentOrderData = JSON.parse(button.getAttribute('data-order'));
+                document.getElementById('modalOrderId').textContent = currentOrderData.orderId;
+                document.getElementById('modalCustomerName').textContent = currentOrderData.customerName;
+                document.getElementById('modalEmail').textContent = currentOrderData.email;
+                document.getElementById('modalPhone').textContent = currentOrderData.phone;
+                document.getElementById('modalAddress').textContent = currentOrderData.address;
+                document.getElementById('modalDate').textContent = currentOrderData.date;
+                document.getElementById('modalTotal').textContent = currentOrderData.total;
+                document.getElementById('modalStatusText').textContent = currentOrderData.status;
+                document.getElementById('modalStatus').value = currentOrderData.status;
+
+                const orderItemsDiv = document.getElementById('modalOrderItems');
+                orderItemsDiv.innerHTML = '';
+
+                // Tạo bảng danh sách sản phẩm
+                const table = document.createElement('table');
+                table.innerHTML = `
+                    <thead>
+                        <tr>
+                            <th>Tên sản phẩm</th>
+                            <th>Số lượng</th>
+                            <th>Giá</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${currentOrderData.items.map(item => `
+                            <tr>
+                                <td>${item.title}</td>
+                                <td>${item.quantity}</td>
+                                <td>${item.price}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                `;
+                orderItemsDiv.appendChild(table);
+
+                modal.style.display = 'block';
+                modalOverlay.style.display = 'block';
+            });
+        });
+
+        // Đóng modal
+        modalClose.addEventListener('click', () => {
+            modal.style.display = 'none';
+            modalOverlay.style.display = 'none';
+        });
+
+        closeBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+            modalOverlay.style.display = 'none';
+        });
+
+        modalOverlay.addEventListener('click', () => {
+            modal.style.display = 'none';
+            modalOverlay.style.display = 'none';
+        });
+
+        // Hiển thị popup xác nhận cập nhật trạng thái
+        function updateOrderStatus() {
+            confirmModal.style.display = 'block';
+        }
+
+        // Đóng popup xác nhận
+        function closeConfirmModal() {
+            confirmModal.style.display = 'none';
+        }
+
+        // Xác nhận cập nhật trạng thái
+        function confirmUpdateStatus() {
+            if (currentOrderData) {
+                const newStatus = document.getElementById('modalStatus').value;
+                currentOrderData.status = newStatus;
+
+                // Cập nhật trạng thái ở bảng chính và modal
+                const statusElement = document.getElementById(`status-${currentOrderData.id}`);
+                if (statusElement) {
+                    statusElement.textContent = newStatus;
+                    statusElement.classList.remove('active', 'inactive');
+                    statusElement.classList.add(newStatus === 'Đã giao' ? 'active' : 'inactive');
+                }
+                document.getElementById('modalStatusText').textContent = newStatus;
+
+                // Hiển thị popup thông báo thành công
+                successModal.style.display = 'block';
+                closeConfirmModal();
+            }
+        }
+
+        // Đóng popup thông báo thành công
+        function closeSuccessModal() {
+            successModal.style.display = 'none';
+            modal.style.display = 'none';
+            modalOverlay.style.display = 'none';
+        }
+    </script>
+</body>
+</html>
