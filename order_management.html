@@ -1,0 +1,182 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Quản lý đơn hàng</title>
+  <script src="../assets/js/script.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <div>
+    <div class="logo-section">
+      <img src="../assets/images/logo.png" alt="Logo">
+      <h2>Tiệm sách nhà em</h2>
+    </div>
+  </div> 
+  <hr>
+
+  <main class="checkout-container">
+    <!-- Bên trái: Bảng quản lý đơn hàng -->
+    <div class="checkout-left">
+      <h2>Quản lý đơn hàng</h2>
+      <div class="header">
+        <input type="text" placeholder="Tìm theo mã đơn, khách hàng...">
+        <button>Tất cả trạng thái</button>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Mã đơn</th>
+            <th>Khách hàng</th>
+            <th>Ngày đặt</th>
+            <th>Tổng tiền</th>
+            <th>Trạng thái</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>#12345</td>
+            <td>Nguyễn Văn A<br>nguyenvana@example.com</td>
+            <td>12/07/2023</td>
+            <td>850.000 đ</td>
+            <td><span class="status dagiao">Đã giao</span></td>
+            <td><button>👁️</button></td>
+          </tr>
+          <tr>
+            <td>#12346</td>
+            <td>Trần Thị B<br>tranthib@example.com</td>
+            <td>11/07/2023</td>
+            <td>1.250.000 đ</td>
+            <td><span class="status dongiao">Đang giao</span></td>
+            <td><button>👁️</button></td>
+          </tr>
+          <tr>
+            <td>#12347</td>
+            <td>Lê Văn C<br>levanc@example.com</td>
+            <td>10/07/2023</td>
+            <td>720.000 đ</td>
+            <td><span class="status hoydon">Hủy đơn</span></td>
+            <td><button>👁️</button></td>
+          </tr>
+          <tr>
+            <td>#12348</td>
+            <td>Phạm Thị D<br>phamthid@example.com</td>
+            <td>09/07/2023</td>
+            <td>450.000 đ</td>
+            <td><span class="status dagiao">Đã giao</span></td>
+            <td><button>👁️</button></td>
+          </tr>
+          <tr>
+            <td>#12349</td>
+            <td>Hoàng Văn E<br>hoangvane@example.com</td>
+            <td>08/07/2023</td>
+            <td>1.560.000 đ</td>
+            <td><span class="status dagiao">Đã giao</span></td>
+            <td><button>👁️</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+      
+    <!-- Bên phải: Sidebar -->
+    <div class="checkout-right">
+      <h2>Menu điều hướng</h2>
+      <ul>
+        <li class="active"><a href="#">Tổng quan</a></li>
+        <li><a href="#">Quản lý sản phẩm</a></li>
+        <li><a href="#">Quản lý đơn hàng</a></li>
+        <li><a href="#">Quản lý khách hàng</a></li>
+        <li><a href="#">Thống kê</a></li>
+      </ul>
+      <div class="admin-info">
+        <p>Tài khoản của tôi</p>
+        <p>ADMIN</p>
+        <p><a href="#">Đăng xuất</a></p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-content container">
+      <!-- Logo + giới thiệu -->
+      <div class="footer-logo-info">
+        <img src="../assets/images/logo1.png" alt="Logo">
+        <div class="footer-description">
+          <h4>Tiệm sách nhà em</h4>
+          <p>Điểm đến lý tưởng để khám phá thế giới sách. Tìm cuốn sách tiếp theo của bạn tại đây.</p>
+        </div>
+      </div>
+  
+      <!-- Truy cập nhanh -->
+      <div class="footer-block">
+        <h4>Truy Cập Nhanh</h4>
+        <p>Trang chủ</p>
+        <p>Sản phẩm</p>
+        <p>Giới thiệu</p>
+        <p>Liên hệ</p>
+      </div>
+  
+      <!-- Điều khoản -->
+      <div class="footer-block">
+        <h4>Điều khoản</h4>
+        <p>Điều khoản sử dụng</p>
+        <p>Chính sách bảo mật thông tin</p>
+        <p>Trợ giúp</p>
+        <p>Điều khoản khách hàng</p>
+      </div>
+  
+      <!-- Liên hệ -->
+      <div class="footer-block">
+        <h4>Liên hệ</h4>
+        <p>123 Đường Sách, Quận 1, TP. Hồ Chí Minh</p>
+        <p>123 456 789</p>
+        <p>tiemsachnhaem@gmail.com</p>
+      </div>
+    </div>
+  
+    <div class="footer-bottom">
+      © 2025 Tiệm sách nhà em. All rights reserved.
+    </div>
+  </footer>
+</body>
+</html>

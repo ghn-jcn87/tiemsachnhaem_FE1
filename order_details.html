@@ -1,0 +1,155 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Chi tiết đơn hàng</title>
+  <script src="../assets/js/script.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <div>
+    <div class="logo-section">
+      <img src="../assets/images/logo.png" alt="Logo">
+      <h2>Tiệm sách nhà em</h2>
+    </div>
+  </div> 
+  <hr>
+
+  <main class="checkout-container">
+    <!-- Bên trái: Thông tin khách hàng và đơn hàng -->
+    <div class="checkout-left">
+      <h2>Chi tiết đơn hàng</h2>
+      <h3>Thông tin khách hàng</h3>
+      <p>Tên: Nguyễn Văn A</p>
+      <p>Email: nguyenvana@example.com</p>
+      <p>Số điện thoại: 0901234567</p>
+      <p>Địa chỉ: 123 Nguyễn Văn Linh, Quận 7, TP.HCM</p>
+      
+      <h3>Thông tin đơn hàng</h3>
+      <p>Mã đơn: #12345</p>
+      <p>Ngày đặt: 12/07/2023</p>
+      <p>Tổng tiền: 850.000đ</p>
+      <p>Trạng thái: <span class="status dagiao">Đã giao</span></p>
+    </div>
+      
+    <!-- Bên phải: Danh sách sản phẩm và hành động -->
+    <div class="checkout-right">
+      <h2>Sản phẩm</h2>
+      <div class="order-item">
+        <p class="title">Dust</p>
+        <p class="qty">1</p>
+        <p class="price">385.000đ</p>
+      </div>
+      <div class="order-item">
+        <p class="title">Cloud Atlas: 20TH ANNIVERSARY EDITION</p>
+        <p class="qty">1</p>
+        <p class="price">69.000đ</p>
+      </div>
+      
+      <h3>Menu điều hướng</h3>
+      <ul>
+        <li><a href="#">Tổng quan</a></li>
+        <li><a href="#">Quản lý sản phẩm</a></li>
+        <li class="active"><a href="#">Quản lý đơn hàng</a></li>
+        <li><a href="#">Quản lý khách hàng</a></li>
+        <li><a href="#">Thống kê</a></li>
+      </ul>
+      
+      <div class="actions">
+        <select>
+          <option>Đã giao</option>
+          <option>Đã hủy</option>
+          <option>Đã giao</option>
+          <option>Đang giao</option>
+          <option>Chưa giao quý khách</option>
+          <option>Đang xử lý</option>
+        </select>
+        <button>Cập nhật trạng thái</button>
+        <button>Đóng</button>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-content container">
+      <!-- Logo + giới thiệu -->
+      <div class="footer-logo-info">
+        <img src="../assets/images/logo1.png" alt="Logo">
+        <div class="footer-description">
+          <h4>Tiệm sách nhà em</h4>
+          <p>Điểm đến lý tưởng để khám phá thế giới sách. Tìm cuốn sách tiếp theo của bạn tại đây.</p>
+        </div>
+      </div>
+  
+      <!-- Truy cập nhanh -->
+      <div class="footer-block">
+        <h4>Truy Cập Nhanh</h4>
+        <p>Trang chủ</p>
+        <p>Sản phẩm</p>
+        <p>Giới thiệu</p>
+        <p>Liên hệ</p>
+      </div>
+  
+      <!-- Điều khoản -->
+      <div class="footer-block">
+        <h4>Điều khoản</h4>
+        <p>Điều khoản sử dụng</p>
+        <p>Chính sách bảo mật thông tin</p>
+        <p>Trợ giúp</p>
+        <p>Điều khoản khách hàng</p>
+      </div>
+  
+      <!-- Liên hệ -->
+      <div class="footer-block">
+        <h4>Liên hệ</h4>
+        <p>123 Đường Sách, Quận 1, TP. Hồ Chí Minh</p>
+        <p>123 456 789</p>
+        <p>tiemsachnhaem@gmail.com</p>
+      </div>
+    </div>
+  
+    <div class="footer-bottom">
+      © 2025 Tiệm sách nhà em. All rights reserved.
+    </div>
+  </footer>
+</body>
+</html>
